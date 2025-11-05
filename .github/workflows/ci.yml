@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup Haskell
+      uses: haskell/actions/setup@v2
+      with:
+        ghc-version: '9.8.2'
+        cabal-version: '3.10'
+
+    - name: Cache dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cabal/store
+          dist-newstyle
+        key: ${{ runner.os }}-${{ hashFiles('**/*.cabal') }}
+
+    - name: Install tools
+      run: |
+        cabal update
+        cabal install hlint ormolu --overwrite-policy=always
+
+    - name: Build
+      run: cabal build all
+
+    - name: Run tests
+      run: cabal test all
+
+    - name: Lint with HLint
+      run: hlint .
+
+    - name: Check formatting with Ormolu
+      run: |
+        ormolu --mode check $(find app src tests -name "*.hs")
