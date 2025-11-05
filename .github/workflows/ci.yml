@@ -32,14 +32,17 @@ jobs:
         cabal update
         cabal install hlint ormolu --overwrite-policy=always
 
-    - name: Build
-      run: cabal build all
+    - name: Clean and rebuild
+      run: |
+        cabal clean
+        cabal update
+        cabal build all
 
     - name: Run tests
       run: |
         cabal update
         cabal build --enable-tests
-        cabal test all --enable-tests
+        cabal test all --test-show-details=always
 
     - name: Lint with HLint
       run: hlint .
