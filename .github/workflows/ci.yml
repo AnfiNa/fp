@@ -36,7 +36,10 @@ jobs:
       run: cabal build all
 
     - name: Run tests
-      run: cabal test all
+      run: |
+        cabal update
+        cabal build --enable-tests
+        cabal test all --enable-tests
 
     - name: Lint with HLint
       run: hlint .
