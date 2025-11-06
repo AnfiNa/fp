@@ -1,11 +1,11 @@
-module Thirty
-  ( fifth,
-  fift,
-  gener,
-  func,
-  funcTail,
-  myDigitToInt
-  ) where
+module Thirty (
+    fifth,
+    fift,
+    gener,
+    func,
+    funcTail,
+    myDigitToInt,
+) where
 
 myDigitToInt :: Char -> Int
 myDigitToInt '0' = 0
@@ -29,11 +29,11 @@ funcTail :: Int -> Int
 funcTail = go 0
   where
     go acc 1 = acc
-    go acc a = go (acc + fifth a) (a-1)
+    go acc a = go (acc + fifth a) (a - 1)
 
 func :: Int -> Int
 func 1 = 0
-func a = fifth a + func (a-1)
+func a = fifth a + func (a - 1)
 
 fift :: Int -> Int
 fift n = sum $ map ((^ 5) . myDigitToInt) (show n)
