@@ -23,10 +23,10 @@ myDigitToInt _ = error "Not a digit"
 fifth :: Int -> Int
 fifth a = if a == s then a else 0
   where
-    s = map ((^ 5) . myDigitToInt) (show n)
+    s = sum $ map ((^ 5) . myDigitToInt) (show a)
 
 funcTail :: Int -> Int
-funcTail n = go 0
+funcTail = go 0
   where
     go acc 1 = acc
     go acc a = go (acc + fifth a) (a-1)
@@ -36,8 +36,7 @@ func 1 = 0
 func a = fifth a + func (a-1)
 
 fift :: Int -> Int
-fift n =  map ((^ 5) . myDigitToInt) (show n)
+fift n = sum $ map ((^ 5) . myDigitToInt) (show n)
 
 gener :: Int -> Int
-gener a = sum $ filter (\i -> i == fift i) [2 .. a]                 
-
+gener a = sum $ filter (\i -> i == fift i) [2 .. a]
