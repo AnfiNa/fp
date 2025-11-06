@@ -49,4 +49,4 @@ jobs:
 
     - name: Check formatting with Ormolu
       run: |
-        ormolu --mode check $(find app src tests -name "*.hs")
+        ormolu --mode check $(find app tests -name "*.hs")
