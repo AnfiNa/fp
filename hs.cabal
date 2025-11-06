@@ -3,7 +3,7 @@ name: hs
 version: 0.1.0.3
 
 library
-  exposed-modules: Thirty
+  exposed-modules: Thirty, One
   build-depends: base ^>=4.19.0.0
   hs-source-dirs: app
   default-language: Haskell2010
@@ -11,6 +11,7 @@ library
 executable hs
   main-is: Main.hs
   build-depends: base, hs
+  other-modules:    One, Thirty
   hs-source-dirs: app
   default-language: Haskell2010
 
