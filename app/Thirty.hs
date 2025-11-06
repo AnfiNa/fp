@@ -1,42 +1,53 @@
 module Thirty (
-    fifth,
-    fift,
-    gener,
-    func,
-    funcTail,
-    myDigitToInt,
+    problem30infinite,
+    problem30map,
+    problem30modular,
+    problem30normal,
+    problem30tail,
 ) where
 
-myDigitToInt :: Char -> Int
-myDigitToInt '0' = 0
-myDigitToInt '1' = 1
-myDigitToInt '2' = 2
-myDigitToInt '3' = 3
-myDigitToInt '4' = 4
-myDigitToInt '5' = 5
-myDigitToInt '6' = 6
-myDigitToInt '7' = 7
-myDigitToInt '8' = 8
-myDigitToInt '9' = 9
-myDigitToInt _ = error "Not a digit"
+import Data.Char (digitToInt)
 
-fifth :: Int -> Int
-fifth a = if a == s then a else 0
+problem30tail :: Int
+problem30tail = goTail 2 0
   where
-    s = sum $ map ((^ 5) . myDigitToInt) (show a)
+    goTail n acc
+        | n > 354294 = acc
+        | n == sumOfPowers n = goTail (n + 1) (acc + n)
+        | otherwise = goTail (n + 1) acc
 
-funcTail :: Int -> Int
-funcTail = go 0
-  where
-    go acc 1 = acc
-    go acc a = go (acc + fifth a) (a - 1)
+    sumOfPowers :: Int -> Int
+    sumOfPowers x = go x 0
+      where
+        go 0 acc = acc
+        go n acc = go (n `div` 10) (acc + ((n `mod` 10) ^ (5 :: Int)))
 
-func :: Int -> Int
-func 1 = 0
-func a = fifth a + func (a - 1)
+problem30normal :: Int
+problem30normal =
+    let upperBound = 354294
+        pow5 = (^ (5 :: Int))
+        sumDigits 0 = 0
+        sumDigits n = pow5 (n `mod` 10) + sumDigits (n `div` 10)
+     in sum [n | n <- [2 .. upperBound], n == sumDigits n]
 
-fift :: Int -> Int
-fift n = sum $ map ((^ 5) . myDigitToInt) (show n)
+problem30modular :: Int
+problem30modular =
+    let upperBound = 354294
+        pow5 = (^ (5 :: Int))
+        digitPowers = map pow5 [0 .. 9]
+        sumOfPowers n =
+            n == foldl (\acc d -> acc + digitPowers !! d) 0 (map (read . pure) (show n))
+     in sum (filter sumOfPowers [2 .. upperBound])
 
-gener :: Int -> Int
-gener a = sum $ filter (\i -> i == fift i) [2 .. a]
+problem30map :: Int
+problem30map =
+    let upperBound = 354294
+        pow5 = (^ (5 :: Int))
+        sumOfPowers n = sum (map (\c -> pow5 (read [c])) (show n))
+     in sum (map fst (filter (uncurry (==)) (map (\n -> (n, sumOfPowers n)) [2 .. upperBound])))
+
+problem30infinite :: Int
+problem30infinite =
+    let pow5 = (^ (5 :: Int))
+        sumOfPowers n = sum (map (pow5 . digitToInt) (show n))
+     in sum (takeWhile (<= 354294) (filter (\n -> n == sumOfPowers n) [2 ..]))

@@ -3,4 +3,4 @@ import One
 import Thirty
 
 main :: IO ()
-main = print $ gener 360000
+main = print problem30normal
