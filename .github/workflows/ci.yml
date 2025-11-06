@@ -30,7 +30,7 @@ jobs:
     - name: Install tools
       run: |
         cabal update
-        cabal install hlint ormolu --overwrite-policy=always
+        cabal install hlint fourmolu --overwrite-policy=always
 
     - name: Clean and rebuild
       run: |
@@ -47,6 +47,6 @@ jobs:
     - name: Lint with HLint
       run: hlint .
 
-    - name: Check formatting with Ormolu
+    - name: Check formatting with fourmolu
       run: |
-        ormolu --mode check $(find app tests -name "*.hs")
+        fourmolu --mode check $(find app tests -name "*.hs")
