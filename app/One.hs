@@ -7,7 +7,7 @@ module One (
     sumInfinite
 ) where
 
-import Data.List (foldl', union)
+import Data.List (foldl')
 
 sumTailRec :: Int -> Int
 sumTailRec n = go 0 0
