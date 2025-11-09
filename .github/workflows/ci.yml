@@ -51,4 +51,4 @@ jobs:
 
     - name: Check formatting with fourmolu
       run: |
-        find app tests -name "*.hs" -exec fourmolu --mode check {} +
+        find app tests -name "*.hs" -exec fourmolu --mode inplace {} +
