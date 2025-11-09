@@ -35,8 +35,6 @@ sumMap n = sum $ map (\x -> if x `mod` 3 == 0 || x `mod` 5 == 0 then x else 0) [
 sumListComp :: Int -> Int
 sumListComp n = sum [x | x <- [1 .. n - 1], x `mod` 3 == 0 || x `mod` 5 == 0]
 
-sumInfinite1 :: Int -> Int
-sumInfinite1 n = sum $ takeWhile (< n) $ union [3, 6 ..] [5, 10 ..]
+sumInfinite :: Int -> Int
+sumInfinite n = sum $ takeWhile (< n) $ union [3, 6 ..] [5, 10 ..]
 
-sumInfinite2 :: Int -> Int
-sumInfinite2 n = sum $ takeWhile (< n) $ filter (\x -> x `mod` 3 == 0 || x `mod` 5 == 0) [1 ..]
