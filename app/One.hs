@@ -4,8 +4,7 @@ module One (
     sumModular,
     sumMap,
     sumListComp,
-    sumInfinite1,
-    sumInfinite2,
+    sumInfinite
 ) where
 
 import Data.List (foldl', union)
