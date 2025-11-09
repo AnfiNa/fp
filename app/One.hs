@@ -3,7 +3,6 @@ module One (
     sumRec,
     sumModular,
     sumMap,
-    sumListComp,
     sumInfinite
 ) where
 
