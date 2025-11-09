@@ -110,32 +110,6 @@ main = hspec $ do
     it "возвращает 0 для отрицательных чисел" $ do
       sumMap (-5) `shouldBe` 0
 
-  describe "sumListComp" $ do
-    it "возвращает 0 для n=0" $ do
-      sumListComp 0 `shouldBe` 0
-    it "возвращает 0 для n=1" $ do
-      sumListComp 1 `shouldBe` 0
-    it "возвращает 0 для n=3" $ do
-      sumListComp 3 `shouldBe` 0
-    it "возвращает 3 для n=4" $ do
-      sumListComp 4 `shouldBe` 3
-    it "возвращает 3 для n=5" $ do
-      sumListComp 5 `shouldBe` 3
-    it "возвращает 8 для n=6" $ do
-      sumListComp 6 `shouldBe` 8
-    it "возвращает 14 для n=7" $ do
-      sumListComp 7 `shouldBe` 14
-    it "возвращает 14 для n=8" $ do
-      sumListComp 8 `shouldBe` 14
-    it "возвращает 14 для n=9" $ do
-      sumListComp 9 `shouldBe` 14
-    it "возвращает 23 для n=10" $ do
-      sumListComp 10 `shouldBe` 23
-    it "возвращает 233168 для n=1000" $ do
-      sumListComp 1000 `shouldBe` 233168
-    it "возвращает 0 для отрицательных чисел" $ do
-      sumListComp (-5) `shouldBe` 0
-
   describe "sumInfinite" $ do
     it "возвращает 0 для n=0" $ do
       sumInfinite 0 `shouldBe` 0

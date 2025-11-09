@@ -42,7 +42,7 @@ sumTailRec n = go 0 0
 sumRec :: Int -> Int
 sumRec n
     | n <= 0 = 0
-    | n `mod` 3 == 0 || n `mod` 5 == 0 = (n - 1) + sumRec (n - 1)
+    | (n - 1) `mod` 3 == 0 || (n - 1) `mod` 5 == 0 = (n - 1) + sumRec (n - 1)
     | otherwise = sumRec (n - 1)
 ```
 
@@ -65,7 +65,8 @@ sumMap n = sum $ map (\x -> if x `mod` 3 == 0 || x `mod` 5 == 0 then x else 0) [
 ### Решение через бесконечные структуры и ленивые исполнения
 
 ```haskell
-sumInfinite n = sum $ takeWhile (< n) $ union [3, 6 ..] [5, 10 ..]
+sumInfinite :: Int -> Int
+sumInfinite n = sum $ takeWhile (< n) $ filter (\x -> x `mod` 3 == 0 || x `mod` 5 == 0) [1 ..]
 ```
 
 ### Решение через другой язык
@@ -166,7 +167,7 @@ problem30Infinite :: Int
 problem30Infinite =
     let pow5 = (^ (5 :: Int))
         sumOfPowers n = sum (map (pow5 . digitToInt) (show n))
-     in sum (takeWhile (<= 354294) (filter (\n -> n == sumOfPowers n) [2 ..]))
+     in sum (filter (\n -> n == sumOfPowers n) (takeWhile (<= 354294) [2 ..]))
 ```
 
 ### Решение через другой язык
@@ -190,3 +191,4 @@ print(b)
 ## Выводы
 
 В ходе выполнения лабораторной работы я познакомилась с новым для себя стилем программирования и языком. 
+Писать код было максимально непривычно, очень хотелось написать реализации через циклы, но их нет в хаскеле.
