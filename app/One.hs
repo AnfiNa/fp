@@ -20,7 +20,7 @@ sumTailRec n = go 0 0
 sumRec :: Int -> Int
 sumRec n
     | n <= 0 = 0
-    | n `mod` 3 == 0 || n `mod` 5 == 0 = (n - 1) + sumRec (n - 1)
+    | (n - 1) `mod` 3 == 0 || (n - 1) `mod` 5 == 0 = (n - 1) + sumRec (n - 1)
     | otherwise = sumRec (n - 1)
 
 sumModular :: Int -> Int
@@ -34,6 +34,4 @@ sumMap n = sum $ map (\x -> if x `mod` 3 == 0 || x `mod` 5 == 0 then x else 0) [
 sumListComp :: Int -> Int
 sumListComp n = sum [x | x <- [1 .. n - 1], x `mod` 3 == 0 || x `mod` 5 == 0]
 
-sumInfinite :: Int -> Int
-sumInfinite n = sum $ takeWhile (< n) $ union [3, 6 ..] [5, 10 ..]
-
+sumInfinite n = sum $ takeWhile (< n) $ filter (\x -> x `mod` 3 == 0 || x `mod` 5 == 0) [1 ..]

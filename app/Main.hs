@@ -3,4 +3,4 @@ import One
 import Thirty
 
 main :: IO ()
-main = print problem30normal
+main = print problem30Normal

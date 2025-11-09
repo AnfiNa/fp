@@ -50,4 +50,4 @@ problem30Infinite :: Int
 problem30Infinite =
     let pow5 = (^ (5 :: Int))
         sumOfPowers n = sum (map (pow5 . digitToInt) (show n))
-     in sum (takeWhile (<= 354294) (filter (\n -> n == sumOfPowers n) [2 ..]))
+     in sum (filter (\n -> n == sumOfPowers n) (takeWhile (<= 354294) [2 ..]))
