@@ -77,8 +77,7 @@ filterMultiset p = filterNode p []
 -- | Отображение ключей: применяет функцию к каждому элементу каждого ключа,
 --   сохраняя количество вхождений. Новые ключи могут сливаться, счётчики складываются.
 mapKeysMultiset :: (Ord k1, Ord k2) => (k1 -> k2) -> PrefixTreeMultiset k1 -> PrefixTreeMultiset k2
-mapKeysMultiset f t =
-  foldlWithKey (\acc key cnt -> foldl' (flip insertMultiset) acc (replicate cnt (map f key))) emptyMultiset t
+mapKeysMultiset f = foldlWithKey (\acc key cnt -> foldl' (flip insertMultiset) acc (replicate cnt (map f key))) emptyMultiset
 
 -- | Объединение двух мультимножеств (сложение счётчиков для одинаковых ключей).
 mergeMultiset :: Ord k => PrefixTreeMultiset k -> PrefixTreeMultiset k -> PrefixTreeMultiset k

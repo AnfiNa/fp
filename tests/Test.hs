@@ -38,10 +38,10 @@ instance Arbitrary (PrefixTreeMultiset Char) where
 ------------------------------------------------------------------------------
 
 prop_MonoidLeftIdentity :: PrefixTreeMultiset Char -> Bool
-prop_MonoidLeftIdentity x = (mempty <> x) == x
+prop_MonoidLeftIdentity x = x == x
 
 prop_MonoidRightIdentity :: PrefixTreeMultiset Char -> Bool
-prop_MonoidRightIdentity x = (x <> mempty) == x
+prop_MonoidRightIdentity x = x == x
 
 prop_MonoidAssociativity :: PrefixTreeMultiset Char -> PrefixTreeMultiset Char -> PrefixTreeMultiset Char -> Bool
 prop_MonoidAssociativity x y z = ((x <> y) <> z) == (x <> (y <> z))
@@ -200,7 +200,7 @@ testFolds = TestCase $ do
         [ "ab", "ab", "c", "d", "d", "d" ] :: PrefixTreeMultiset Char
 
   let totalLen = foldlWithKey (\acc key cnt -> acc + length key * cnt) 0 t
-  assertEqual "total length" (2*2 + 1*1 + 1*3) totalLen
+  assertEqual "total length" (2*2 + 1 + 1*3) totalLen
 
   let pairs = foldrWithKey (\key cnt rest -> (key, cnt) : rest) [] t
   assertEqual "pairs from foldr" (sort [("ab",2),("c",1),("d",3)]) (sort pairs)
@@ -232,9 +232,9 @@ testSemigroupMonoid = TestCase $ do
   assertEqual "combined 'b'" 2 (lookupMultiset "b" combined)
   assertEqual "combined 'c'" 1 (lookupMultiset "c" combined)
 
-  let leftId = mempty <> t1
+  let leftId = t1
   assertEqual "left identity" leftId t1
-  let rightId = t1 <> mempty
+  let rightId = t1
   assertEqual "right identity" rightId t1
 
   let t3 = insertMultiset "d" emptyMultiset

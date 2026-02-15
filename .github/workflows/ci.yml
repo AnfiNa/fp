@@ -60,7 +60,9 @@ jobs:
         cabal install hlint
     
     - name: Run HLint
-      run: hlint src/ test/ app/
+      run: |
+        hlint src/ tests/ app/ --refactor-options="-i"
+        hlint src/ tests/ app/
 
   fourmolu:
     runs-on: ubuntu-latest
