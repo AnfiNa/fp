@@ -22,9 +22,7 @@ jobs:
     - name: Cache dependencies
       uses: actions/cache@v3
       with:
-        path: |
-          ~/.cabal/store
-          dist-newstyle
+        path: dist-newstyle
         key: ${{ runner.os }}-${{ hashFiles('**/*.cabal') }}
 
     - name: Install tools
@@ -36,20 +34,16 @@ jobs:
       run: |
         cabal clean
         cabal update
-        cabal build all
+        cabal build
 
     - name: Run tests
       run: |
-        cabal update
-        cabal build --enable-tests
-        cabal test all --test-show-details=always
+        cabal test fp-lab2-test
 
     - name: Lint with HLint
       run: |
-        
         hlint .
 
-        
     - name: Check formatting with fourmolu
       run: |
-        find app tests -name "*.hs" -exec fourmolu --mode inplace {} +
+        find app arc tests -name "*.hs" -exec fourmolu --mode inplace {} +

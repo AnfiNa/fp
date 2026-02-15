@@ -1,0 +1,17 @@
+cabal-version: 3.0
+name:          fp-lab2
+version:       0.1.0.0
+build-type:    Simple
+
+library
+  exposed-modules: Structure.Internal
+  hs-source-dirs: src
+  build-depends: base >=4.14, containers
+  default-language: Haskell2010
+
+test-suite fp-lab2-test
+  type: exitcode-stdio-1.0
+  main-is: Test.hs
+  hs-source-dirs: tests
+  build-depends: base, containers, HUnit, QuickCheck, fp-lab2
+  default-language: Haskell2010
