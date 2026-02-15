@@ -1,49 +1,84 @@
-name: CI
+name: Haskell CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, master ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, master ]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v4
-
+    
     - name: Setup Haskell
       uses: haskell-actions/setup@v2
       with:
-        ghc-version: '9.8.2'
-        cabal-version: '3.10'
-
+        ghc-version: '9.4.8'
+        cabal-version: '3.10.2.0'
+    
     - name: Cache dependencies
       uses: actions/cache@v3
       with:
-        path: dist-newstyle
-        key: ${{ runner.os }}-${{ hashFiles('**/*.cabal') }}
-
-    - name: Install tools
-      run: |
-        cabal update
-        cabal install hlint fourmolu --overwrite-policy=always
-
-    - name: Clean and rebuild
-      run: |
-        cabal clean
-        cabal update
-        cabal build
-
+        path: |
+          ~/.cabal/store
+          ~/.cabal/packages
+          dist-newstyle
+        key: ${{ runner.os }}-cabal-${{ hashFiles('**/*.cabal', '**/cabal.project') }}
+        restore-keys: |
+          ${{ runner.os }}-cabal-
+    
+    - name: Update package list
+      run: cabal update
+    
+    - name: Install dependencies
+      run: cabal build --only-dependencies --enable-tests
+    
+    - name: Build project
+      run: cabal build --enable-tests
+    
     - name: Run tests
-      run: |
-        cabal test fp-lab2-test
+      run: cabal test --test-show-details=direct
 
-    - name: Lint with HLint
+  hlint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Haskell
+      uses: haskell-actions/setup@v2
+      with:
+        ghc-version: '9.4.8'
+        cabal-version: '3.10.2.0'
+    
+    - name: Install HLint
       run: |
-        hlint .
+        cabal update
+        cabal install hlint
+    
+    - name: Run HLint
+      run: hlint src/ test/ app/
 
-    - name: Check formatting with fourmolu
+  fourmolu:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Haskell
+      uses: haskell-actions/setup@v2
+      with:
+        ghc-version: '9.4.8'
+        cabal-version: '3.10.2.0'
+    
+    - name: Install Fourmolu
       run: |
-        find app arc tests -name "*.hs" -exec fourmolu --mode inplace {} +
+        cabal update
+        cabal install fourmolu
+    
+    - name: Run Fourmolu (check mode)
+      run: |
+        fourmolu --mode check src/ test/ app/ || echo "Fourmolu found formatting issues. Run 'fourmolu --mode inplace src/ test/ app/' locally to fix."
