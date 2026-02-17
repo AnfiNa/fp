@@ -1,9 +1,4 @@
 {-# LANGUAGE FlexibleInstances #-}
-{-# LANGUAGE ScopedTypeVariables #-}
-
--- Файл: Test.hs
--- Запуск: cabal test  (или runhaskell Test.hs с установленными пакетами)
-module Main where
 
 import Structure.Internal
 import Test.HUnit
@@ -11,10 +6,6 @@ import Test.QuickCheck
 import Data.List (sort, nub)
 import qualified Data.Map.Strict as Map
 import Data.Char (chr, ord)
-
-------------------------------------------------------------------------------
--- 1. Генератор случайных мультимножеств для QuickCheck (конкретный тип Char)
-------------------------------------------------------------------------------
 
 -- | Генерируем строки из символов 'a'..'c' длиной до 3 (чтобы дерево не разрасталось)
 genSmallString :: Gen String
