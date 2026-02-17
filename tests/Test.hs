@@ -33,22 +33,14 @@ instance Arbitrary (PrefixTreeMultiset Char) where
     in [ foldr insertMultiset emptyMultiset (take i xs ++ drop (i+1) xs)
        | i <- [0..length xs - 1] ]
 
-------------------------------------------------------------------------------
--- 2. Свойства моноида (3 свойства)
-------------------------------------------------------------------------------
-
 prop_MonoidLeftIdentity :: PrefixTreeMultiset Char -> Bool
-prop_MonoidLeftIdentity x = x == x
+prop_MonoidLeftIdentity x = x <> emptyMultiset == x
 
 prop_MonoidRightIdentity :: PrefixTreeMultiset Char -> Bool
-prop_MonoidRightIdentity x = x == x
+prop_MonoidRightIdentity x = emptyMultiset <> x == x
 
 prop_MonoidAssociativity :: PrefixTreeMultiset Char -> PrefixTreeMultiset Char -> PrefixTreeMultiset Char -> Bool
 prop_MonoidAssociativity x y z = ((x <> y) <> z) == (x <> (y <> z))
-
-------------------------------------------------------------------------------
--- 3. Дополнительные свойства (для демонстрации)
-------------------------------------------------------------------------------
 
 -- | Вставка с последующим удалением одного вхождения не меняет множество
 prop_InsertDelete :: Property
@@ -94,10 +86,6 @@ prop_FoldsAgree t =
   let list = foldrWithKey (\k cnt acc -> replicate cnt k ++ acc) [] t
       foldlRes = foldlWithKey (\acc k cnt -> replicate cnt k ++ acc) [] t
   in sort list == sort foldlRes
-
-------------------------------------------------------------------------------
--- 4. Unit-тесты (HUnit)
-------------------------------------------------------------------------------
 
 unitTests :: Test
 unitTests = TestList
@@ -249,11 +237,7 @@ testMapKeys = TestCase $ do
   assertEqual "mapKeys 'ab' -> 'AB'" 2 (lookupMultiset "AB" t')
   assertEqual "mapKeys 'c' -> 'C'" 1 (lookupMultiset "C" t')
   where
-    toUpper c = chr (ord c - 32) -- простейшее преобразование в верхний регистр
-
-------------------------------------------------------------------------------
--- 5. Запуск всех тестов
-------------------------------------------------------------------------------
+    toUpper c = chr (ord c - 32)
 
 main :: IO ()
 main = do

@@ -17,7 +17,6 @@ import Data.Map.Strict (Map)
 import qualified Data.Map.Strict as Map
 import Data.List (foldl')
 
--- | Полиморфное префиксное дерево для мультимножества списков элементов типа k.
 data PrefixTreeMultiset k = Node
   { count :: !Int,
     children :: !(Map k (PrefixTreeMultiset k))
