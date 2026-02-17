@@ -61,7 +61,6 @@ jobs:
     
     - name: Run HLint
       run: |
-        hlint src/Structure.hs --refactor-options="-i"
         hlint src/Structure/Internal.hs --refactor-options="-i"
         hlint tests/Test.hs --refactor-options="-i"
         hlint src/ tests/
